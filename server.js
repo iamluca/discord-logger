@@ -10,8 +10,9 @@ const Discord = require('discord.js');
 
 //constants
 const VERSION = '0.1.1';
-const TOKEN = 'TOKEN GOES HERE';
-const CHANNEL = 'log';
+const TOKEN = '';
+const CHANNEL = 'server-log';
+const config = require("./config"):
 
 //declarations
 var bot = new Discord.Client();
@@ -22,7 +23,7 @@ var bot = new Discord.Client();
 
 //bot is ready to start working, print status update to console
 bot.on('ready', function() {
-    console.log('[META][INFO] Connected to Discord API Service');
+    console.log('[META] [INFO] Connected to Discord API Service');
 });
 
 //bot disconnected from Discord
@@ -48,10 +49,10 @@ bot.on('message', function(message) {
             console.log('[' + message.guild.name + '][#' + message.channel.name + '][MSG] ' + message.author.username +
                 '#' + message.author.discriminator + ': ' + formatConsoleMessage(message));
         else if (message.channel.type == 'dm')
-            message.channel.sendMessage('Beep boop! Sorry, I can\'t respond to direct messages. Try inviting me to your ' +
+            message.send('Beep boop! Sorry, I can\'t respond to direct messages. Try inviting me to your ' +
                 'server!\nhttps://discordapp.com/oauth2/authorize?&client_id=240256235952144395&scope=bot&permissions=8');
         else if (message.channel.type == 'group')
-            message.channel.sendMessage('Beep boop! Sorry, I can\'t log group messages. Try inviting me to your server!\n' +
+            message.send('Beep boop! Sorry, I can\'t log group messages. Try inviting me to your server!\n' +
                 'https://discordapp.com/oauth2/authorize?&client_id=240256235952144395&scope=bot&permissions=8');
     }
 });
@@ -68,7 +69,7 @@ bot.on('messageDelete', function(message) {
         //post in the guild's log channel
         var log = message.guild.channels.find('name', CHANNEL);
         if (log != null)
-            log.sendMessage('**[Message Deleted]** ' + message.author + ': ' + message.cleanContent);
+            log.send('**[Message Deleted]** ' + message.author + ': ' + message.cleanContent);
 
     }
 
@@ -87,7 +88,7 @@ bot.on('messageUpdate', function(oldMessage, newMessage) {
         //post in the guild's log channel
         var log = newMessage.guild.channels.find('name', CHANNEL);
         if (log != null)
-            log.sendMessage('**[Message Updated]** *' + newMessage.author + '*:\n*Old Message*: ' + oldMessage.cleanContent +
+            log.send('**[Message Updated]** *' + newMessage.author + '*:\n*Old Message*: ' + oldMessage.cleanContent +
                 '\n*New Message*: ' + newMessage.cleanContent);
     }
 
@@ -102,7 +103,7 @@ bot.on('guildBanAdd', function(guild, user) {
     //post in the guild's log channel
     var log = guild.channels.find('name', CHANNEL);
     if (log != null)
-        log.sendMessage('**[Banned]** ' + user);
+        log.send('**[Banned]** ' + user);
 
 });
 
@@ -115,7 +116,7 @@ bot.on('guildBanRemove', function(guild, user) {
     //post in the guild's log channel
     var log = guild.channels.find('name', CHANNEL);
     if (log != null)
-        log.sendMessage('**[Unbanned]** ' + user);
+        log.send('**[Unbanned]** ' + user);
 
 });
 
@@ -128,7 +129,7 @@ bot.on('guildMemberAdd', function(guild, user) {
     //post in the guild's log channel
     var log = guild.channels.find('name', CHANNEL);
     if (log != null) {
-        log.sendMessage('**[Joined]** ' + user);
+        log.send('**[Joined]** ' + user);
     }
 
 });
@@ -142,7 +143,7 @@ bot.on('guildMemberRemove', function(guild, user) {
     //post in the guild's log channel
     var log = guild.channels.find('name', CHANNEL);
     if (log != null)
-        log.sendMessage('**[Left]** ' + user);
+        log.send('**[Left]** ' + user);
 
 });
 
@@ -223,27 +224,27 @@ bot.on('guildMemberUpdate', function(guild, oldMember, newMember) {
     if (log != null) {
         switch(change) {
             case Changes.unknown:
-                log.sendMessage('**[User Update]** ' + newMember);
+                log.send('**[User Update]** ' + newMember);
                 break;
             case Changes.addedRole:
-                log.sendMessage('**[User Role Added]** ' + newMember + ': ' + addedRole);
+                log.send('**[User Role Added]** ' + newMember + ': ' + addedRole);
                 break;
             case Changes.removedRole:
-                log.sendMessage('**[User Role Removed]** ' + newMember + ': ' + removedRole);
+                log.send('**[User Role Removed]** ' + newMember + ': ' + removedRole);
                 break;
             case Changes.username:
-                log.sendMessage('**[User Username Changed]** ' + newMember + ': Username changed from ' +
+                log.send('**[User Username Changed]** ' + newMember + ': Username changed from ' +
                     oldMember.user.username + '#' + oldMember.user.discriminator + ' to ' +
                     newMember.user.username + '#' + newMember.user.discriminator);
                 break;
             case Changes.nickname:
-                log.sendMessage('**[User Nickname Changed]** ' + newMember + ': ' +
+                log.send('**[User Nickname Changed]** ' + newMember + ': ' +
                     (oldMember.nickname != null ? 'Changed nickname from ' + oldMember.nickname +
                         + newMember.nickname : 'Set nickname') + ' to ' +
                     (newMember.nickname != null ? newMember.nickname + '.' : 'original username.'));
                 break;
             case Changes.avatar:
-                log.sendMessage('**[User Avatar Changed]** ' + newMember);
+                log.send('**[User Avatar Changed]** ' + newMember);
                 break;
         }
     }
