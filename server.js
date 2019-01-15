@@ -10,7 +10,6 @@ const Discord = require('discord.js');
 
 //constants
 const VERSION = '0.1.1';
-const TOKEN = '';
 const CHANNEL = 'server-log';
 const config = require("./config"):
 
@@ -24,6 +23,8 @@ var bot = new Discord.Client();
 //bot is ready to start working, print status update to console
 bot.on('ready', function() {
     console.log('[META] [INFO] Connected to Discord API Service');
+    bot.user.setActivity('chat', { type: 'WATCHING' });
+    bot.user.setStatus("dnd")
 });
 
 //bot disconnected from Discord
@@ -261,7 +262,7 @@ console.log('----------------------------------------------');
 
 console.log('[META][INFO] Started Logger v' + VERSION);
 
-bot.login(TOKEN); //log in to discord
+bot.login(config.token); //log in to discord
 
 function formatConsoleMessage(message) {
     return message.cleanContent.replace(new RegExp('\n', 'g'), '\n\t');
